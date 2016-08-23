@@ -41,13 +41,6 @@ app.get('/campgrounds', function(req, res){
 
 
 
-
-
-
-
-
-
-
 //-----------------------------------------------------------------------------
 app.listen(3000, function(req, res){
     console.log('Sever has started on PORT 3000');
