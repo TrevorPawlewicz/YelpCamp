@@ -1,16 +1,33 @@
 <% include partials/header %> <!-- to include partials header -->
 
-<h1>campgrounds.ejs</h1>
+<div class="container"> <!-- container for added space around div -->
 
-<a href="/campgrounds/new">Add new campground</a>
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Welcome to YelpCamp!</h1>
+            <p>View are hand-picked campgrounds!</p>
+            <p>
+                <a class="btn btn-primary btn-lrg"
+                   href="/campgrounds/new">Add New Campground</a>
+            </p>
+        </div>
+    </header>
 
-<% campData.forEach(function(campground){ %>
-    <div>
-        <h4><%= campground.name %></h4>
-        <img src="<%= campground.image %>">
+    <!-- _____________________________images________________________________-->
+    <div class="row text-center">
+        <% campData.forEach(function(campground){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src="<%= campground.image %>">
+                    <div class="caption">
+                        <h3><%= campground.name %></h3>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
     </div>
-<% }) %>
+    <!-- _____________________________images________________________________-->
 
-
+</div>
 
 <% include partials/footer %> <!-- to include partials footer -->
