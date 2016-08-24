@@ -1,7 +1,9 @@
 var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
+var mongoose   = require('mongoose');
 
+mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
 app.set('view engine', 'ejs'); // for views folder. no .ejs needed for file ext
 //-----------------------------------------------------------------------------
@@ -48,5 +50,5 @@ app.post('/campgrounds', function(req, res){
 
 //-----------------------------------------------------------------------------
 app.listen(3000, function(req, res){
-    console.log('...Sever has started on PORT 3000...');
+    console.log('...the YelpCamp sever has started...');
 });
