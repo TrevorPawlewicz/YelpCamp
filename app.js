@@ -12,13 +12,18 @@ app.set('view engine', 'ejs'); // for views folder. no .ejs needed for file ext
 // SCHEMA SETUP:
 var campSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
 // mongoose will name our var "camps" in the DB (lowercase, plural)
 var Camp = mongoose.model('Camp', campSchema);
 
 // test-o:
-// Camp.create({name: "camp02", image: "http://esq.h-cdn.co/assets/15/28/980x653/gallery-1436200680-10-jumbo-rocks.jpg"},
+// Camp.create(
+//     {   name: "Camp Heaven",
+//         image: "http://esq.h-cdn.co/assets/15/28/980x653/gallery-1436200680-10-jumbo-rocks.jpg",
+//         descriiption: "A nice place to get your drink on :)"
+//     },
 //     function(err, campground){
 //         if(err){
 //             console.log(err);
@@ -46,21 +51,36 @@ app.get('/campgrounds', function(req, res){
             console.log(err)
         } else {
             //                            {name we give our data being passed in: our actual data}
-            res.render('campgrounds.ejs', {campData: allCamps});
+            res.render('index.ejs', {campData: allCamps});
         }
     });
 }); //-------------------------------------------------------------------------
 
 app.get('/campgrounds/new', function(req, res){
     res.render('new.ejs');
+}); //-------------------------------------------------------------------------
+
+// SHOW - show more info about one campground
+app.get('/campgrounds/:id', function(req, res){
+    // find the camp with provided ID
+    Camp.findById(req.params.id, function(err, foundCamp){
+        if (err) {
+            console.log(err);
+        } else {
+            // render show template with that camp
+            res.render('show.ejs', {campData: foundCamp});
+        }
+    });
 });
 
-
+// CREATE - add new camp to DB
 app.post('/campgrounds', function(req, res){
     // get data from form:
     var name = req.body.name;
     var image = req.body.image;
-    var newCamp = {name: name, image: image}; // add info to new object
+    var descript = req.body.description;
+    // add info to new object               {key is accessed in ejs}
+    var newCamp = {name: name, image: image, description: descript};
 
     // create a new camp and save it to our DB:
     Camp.create(newCamp, function(err, newlyCreated){
