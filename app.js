@@ -62,7 +62,7 @@ app.get('/campgrounds/new', function(req, res){
 
 // SHOW - show more info about one campground
 app.get('/campgrounds/:id', function(req, res){
-    // find the camp with provided ID
+    //   findById is a mongoose method
     Camp.findById(req.params.id, function(err, foundCamp){
         if (err) {
             console.log(err);
