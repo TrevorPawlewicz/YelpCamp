@@ -31,7 +31,7 @@ function seedDB(){
         console.log("Removed all camps!");
         // then add some camps from seed data
         data.forEach(function(seed){
-            Camp.create(seed, function(err, campData){
+            Camp.create(seed, function(err, campSchemaData){
                 if (err) {
                     console.log(err);
                 } else {
@@ -45,11 +45,12 @@ function seedDB(){
                             if (err) {
                                 console.log(err);
                             } else {
-                                campData.comments.push(comment);
-                                campData.save();
+                                campSchemaData.comments.push(comment);
+                                campSchemaData.save();
                                 console.log('comment created!');
                             }
-                        });
+                        }
+                    );
                 }
             });
         });
