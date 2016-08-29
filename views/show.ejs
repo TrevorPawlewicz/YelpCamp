@@ -8,5 +8,11 @@
 
 <p><%= campData.description %></p>
 
+<% campData.comments.forEach(function(comment){ %>
+    <p>
+        <strong><%= comment.author %></strong> - <%= comment.text %>
+    </p>
+<% }); %>
+
 <!-- _____________________________partial footer___________________________ -->
 <% include partials/footer %> <!-- to include partials footer -->

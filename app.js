@@ -6,12 +6,13 @@ var Camp       = require('./models/campground.js'); // import camground.js
 var seedDB     = require('./seeds.js');
 var Comment    = require('./models/comment.js');
 
-
-seedDB(); // seed the database evrytime we run app.
 //                                    yelp_camp is our dadtabase name
 mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
 app.set('view engine', 'ejs'); // for views folder. no .ejs needed for file ext
+
+seedDB(); // seed the database evrytime we run app.
+
 //-----------------------------------------------------------------------------
 
 // // SCHEMA SETUP: moved to camgrounds.js ------------------------------------
@@ -47,7 +48,8 @@ app.get('/campgrounds/new', function(req, res){
 // SHOW - show more info about one campground
 app.get('/campgrounds/:id', function(req, res){
     //   findById is a mongoose method
-    Camp.findById(req.params.id, function(err, foundCamp){
+    // Camp.findById(req.params.id, function(err, foundCamp){
+    Camp.findById(req.params.id).populate('comments').exec(function(err, foundCamp){
         if (err) {
             console.log(err);
         } else {
