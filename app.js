@@ -15,16 +15,6 @@ seedDB(); // seed the database evrytime we run app.
 
 //-----------------------------------------------------------------------------
 
-// // SCHEMA SETUP: moved to camgrounds.js ------------------------------------
-// var campSchema = new mongoose.Schema({
-//     name: String,
-//     image: String,
-//     description: String
-// });
-// // mongoose will name our var "camps" in the DB (lowercase, plural)
-// var Camp = mongoose.model('Camp', campSchema);
-//-----------------------------------------------------------------------------
-
 app.get('/', function(req, res){
     res.render('landing.ejs');
 }); //-------------------------------------------------------------------------
