@@ -3,8 +3,11 @@ var app        = express();
 var bodyParser = require('body-parser');
 var mongoose   = require('mongoose');
 var Camp       = require('./models/campground.js'); // import camground.js
+var seedDB     = require('./seeds.js');
 var Comment    = require('./models/comment.js');
 
+
+seedDB(); // seed the database evrytime we run app.
 //                                    yelp_camp is our dadtabase name
 mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
@@ -31,7 +34,7 @@ app.get('/campgrounds', function(req, res){
         if (err){
             console.log(err)
         } else {
-            //                            {name we give our data being passed in: our actual data}
+            // {name we give our data being passed in: our actual data}
             res.render('index.ejs', {campData: allCamps});
         }
     });
