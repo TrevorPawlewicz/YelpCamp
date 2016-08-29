@@ -26,28 +26,27 @@ app.get('/campgrounds', function(req, res){
             console.log(err)
         } else {
             // {name we give our data being passed in: our actual data}
-            res.render('index.ejs', {campData: allCamps});
+            res.render('campgrounds/index.ejs', {campData: allCamps});
         }
     });
 }); //-------------------------------------------------------------------------
 
 app.get('/campgrounds/new', function(req, res){
-    res.render('new.ejs');
+    res.render('campgrounds/new.ejs');
 }); //-------------------------------------------------------------------------
 
 // SHOW - show more info about one campground
 app.get('/campgrounds/:id', function(req, res){
     //   findById is a mongoose method
-    // Camp.findById(req.params.id, function(err, foundCamp){
     Camp.findById(req.params.id).populate('comments').exec(function(err, foundCamp){
         if (err) {
             console.log(err);
         } else {
             // render show template with that camp
-            res.render('show.ejs', {campData: foundCamp});
+            res.render('campgrounds/show.ejs', {campData: foundCamp});
         }
     });
-});
+}); //-------------------------------------------------------------------------
 
 // CREATE - add new camp to DB
 app.post('/campgrounds', function(req, res){
@@ -68,6 +67,47 @@ app.post('/campgrounds', function(req, res){
         }
     });
 }); //-------------------------------------------------------------------------
+//=============================================================================
+
+
+// ====================== COMMENT ROUTES ======================================
+
+app.get('/campgrounds/:id/comments/new', function(req, res){
+    Camp.findById(req.params.id, function(err, foundCamp){
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('comments/new.ejs', {campData: foundCamp});
+        }
+    });
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
