@@ -73,6 +73,7 @@ app.post('/campgrounds', function(req, res){
 // ====================== COMMENT ROUTES ======================================
 
 app.get('/campgrounds/:id/comments/new', function(req, res){
+    // find by ID
     Camp.findById(req.params.id, function(err, foundCamp){
         if (err) {
             console.log(err);
@@ -80,25 +81,28 @@ app.get('/campgrounds/:id/comments/new', function(req, res){
             res.render('comments/new.ejs', {campData: foundCamp});
         }
     });
-
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.post('/campgrounds/:id/comments', function(req, res){
+    //
+    Camp.findById(req.params.id, function(err, foundCamp){
+        if (err) {
+            console.log(err);
+            res.redirect('/campgrounds');
+        } else {
+            Comment.create(req.body.comment, function(err, comment){
+                if (err) {
+                    console.log(err);
+                    res.redirect('/campgrounds');
+                } else {
+                    foundCamp.comments.push(comment);
+                    foundCamp.save();
+                    res.redirect('/campgrounds/' + foundCamp._id);
+                }
+            });
+        }
+    });
+});
 
 
 
