@@ -8,17 +8,17 @@ var data = [
     {
         name: 'The Desert',
         image: 'http://www.lamag.com/wp-content/uploads/sites/9/2015/05/thedesert-1.jpg',
-        description: 'it is the desert. Duh.'
+        description: "Lebowski ipsum walter, come off it. You're not even fucking Jewish. You're fucking Polish Catholic. Dolor sit amet, consectetur adipiscing elit praesent ac magna justo pellentesque ac. Every time a rug is micturated upon in this fair city, I have to compensate. Lectus quis elit blandit fringilla a ut turpis praesent felis ligula, malesuada. You know, the usual. Bowl. Drive around."
     },
     {
         name: 'Whiskey Town',
         image: 'http://esq.h-cdn.co/assets/15/28/980x653/gallery-1436200680-10-jumbo-rocks.jpg',
-        description: 'Get your drink on!'
+        description: "Lebowski ipsum walter, come off it. You're not even fucking Jewish. You're fucking Polish Catholic. Dolor sit amet, consectetur adipiscing elit praesent ac magna justo pellentesque ac. Every time a rug is micturated upon in this fair city, I have to compensate. Lectus quis elit blandit fringilla a ut turpis praesent felis ligula, malesuada. You know, the usual. Bowl. Drive around."
     },
     {
         name: 'Midnight Delight',
         image: 'https://images.theoutbound.com/uploads/1437140402255/wumsmrfw78e/ca76c0961beec40ee34c0e8b7997e543?w=900&h=600&fit=crop',
-        description: 'Night time...'
+        description: "Lebowski ipsum walter, come off it. You're not even fucking Jewish. You're fucking Polish Catholic. Dolor sit amet, consectetur adipiscing elit praesent ac magna justo pellentesque ac. Every time a rug is micturated upon in this fair city, I have to compensate. Lectus quis elit blandit fringilla a ut turpis praesent felis ligula, malesuada. You know, the usual. Bowl. Drive around."
     }
 ];
 

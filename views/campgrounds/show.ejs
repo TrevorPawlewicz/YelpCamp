@@ -1,24 +1,56 @@
 <% include ../partials/header %> <!-- to include partials header -->
 <!-- ______^partial header^______navbar location____________________________-->
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- ______________________INFO ITEMS__________________________ -->
+            <p class="lead">Yelp Camp</p>
+            <div class="list-group">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 3</li>
+            </div>
+            <!-- ______________________INFO ITEMS__________________________ -->
+        </div>
 
-<h1><%= campData.name %></h1>
+        <div class="col-md-9">
+            <!-- ________IMAGES_____NAME_____DESCRIPTION___________________ -->
+            <div class="thumbnail">
+                <img class="img-responsive" src="<%= campData.image %>"/>
+                <div class="caption-full">
+                    <h4 class="pull-right">$9.00/night</h4>
+                    <h4><a><%= campData.name %></a></h4>
+                    <p><%= campData.description %></p>
+                </div>
+            </div>
+            <!-- ________IMAGES_____NAME_____DESCRIPTION___________________ -->
 
-<img src="<%= campData.image %>"/>
+            <!-- _______________________COMMENTS___________________________ -->
+            <div class="well">
+                <div class="text-right">
+                    <a class="btn btn-success" href="/campgrounds/<%= campData._id%>/comments/new">
+                        Add New Comment
+                    </a>
+                </div>
+                <hr>
+                <% campData.comments.forEach(function(comment){ %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong><%= comment.author %></strong>
+                            <span class="pull-right">10 days ago</span>
+                            <p>
+                                <%= comment.text %>
+                            </p>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+            <!-- _______________________COMMENTS___________________________ -->
+        </div>
+    </div>
+</div>
 
-<p><%= campData.description %></p>
-
-<p>
-    <a class="btn btn-success" href="/campgrounds/<%= campData._id%>/comments/new">
-        Add New Comment
-    </a>
-</p>
-
-<% campData.comments.forEach(function(comment){ %>
-    <p>
-        <strong><%= comment.author %></strong> - <%= comment.text %>
-    </p>
-<% }); %>
 
 
 <!-- _____________________________partial footer___________________________ -->
