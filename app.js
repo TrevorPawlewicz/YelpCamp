@@ -10,7 +10,7 @@ var Comment    = require('./models/comment.js');
 mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
 app.set('view engine', 'ejs'); // for views folder. no .ejs needed for file ext
-app.use(express.static(__dirname + '/public')); // needed for external files (css & js)
+
 seedDB(); // seed the database evrytime we run app.
 
 //-----------------------------------------------------------------------------
