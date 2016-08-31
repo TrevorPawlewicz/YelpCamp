@@ -31,11 +31,20 @@ passport.serializeUser(User.serializeUser()); // passport-local-mongoose
 passport.deserializeUser(User.deserializeUser()); // passport-local-mongoose
 //-----------------------------------------------------------------------------
 
-// ROUTES:
+// our MIDDLEWARE for currentUser
+// *** whatever we put into res.locals we can use in our template
+app.use(function(req, res, next){
+    // req.user will be empty if no one is signed in
+    res.locals.currentUser = req.user;
+    next(); // move forward
+});
+
+// ROUTES: --------------------------------------------------------------------
 app.get('/', function(req, res){
     res.render('landing.ejs');
 }); //-------------------------------------------------------------------------
 
+// INDEX - show all campgrounds
 app.get('/campgrounds', function(req, res){
     //   find all camps form the DB
     Camp.find({}, function(err, allCamps){
@@ -43,7 +52,8 @@ app.get('/campgrounds', function(req, res){
             console.log(err)
         } else {
             // {name we give our data being passed in: our actual data}
-            res.render('campgrounds/index.ejs', {campData: allCamps});
+            res.render('campgrounds/index.ejs', {campData: allCamps, currentUser: req.user});
+            //res.render('campgrounds/index.ejs', {campData: allCamps});
         }
     });
 }); //-------------------------------------------------------------------------
