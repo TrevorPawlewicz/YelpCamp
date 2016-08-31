@@ -88,8 +88,8 @@ app.post('/campgrounds', function(req, res){
 
 
 // ====================== COMMENT ROUTES ======================================
-
-app.get('/campgrounds/:id/comments/new', function(req, res){
+//                                       MIDDLEWARE
+app.get('/campgrounds/:id/comments/new', isLoggedIn, function(req, res){
     // find by ID
     Camp.findById(req.params.id, function(err, foundCamp){
         if (err) {
@@ -99,8 +99,8 @@ app.get('/campgrounds/:id/comments/new', function(req, res){
         }
     });
 });
-
-app.post('/campgrounds/:id/comments', function(req, res){
+//                                    MIDDLEWARE
+app.post('/campgrounds/:id/comments', isLoggedIn, function(req, res){
     //
     Camp.findById(req.params.id, function(err, foundCamp){
         if (err) {
@@ -150,7 +150,7 @@ app.get('/login', function(req, res){
 });
 
 // handle login logic with MIDDLEWARE:
-app.post('/login', passport.authenticatefunction('local',
+app.post('/login', passport.authenticate('local',
     {   // user is assumed to be registered here
         successRedirect: '/campgrounds',
         failureRedirect: '/login'
@@ -159,11 +159,21 @@ app.post('/login', passport.authenticatefunction('local',
     }
 );
 
+// logout logic:
+app.get('/logout', function(req, res){
+    req.logout(); // method passport
+    res.redirect('/campgrounds');
+});
 
+//=============================================================================
 
-
-
-
+// our MIDDLEWARE function for isAuthenticated
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+}; //-----------------------------------------
 
 
 
