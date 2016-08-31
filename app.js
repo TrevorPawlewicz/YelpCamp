@@ -8,15 +8,30 @@ var Camp          = require('./models/campground.js'); // import camground.js
 var User          = require('./models/user.js');
 var Comment       = require('./models/comment.js');
 var seedDB        = require('./seeds.js');
+
 //                                    yelp_camp is our dadtabase name
 mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
 app.set('view engine', 'ejs'); // for views folder. no .ejs needed for file ext
+app.use(express.static(__dirname + '/public'));
 
 seedDB(); // seed the database evrytime we run app.
-
 //-----------------------------------------------------------------------------
 
+// PASSPORT Configuration: ----------------------------------------------------
+app.use(require('express-session')({
+    secret: 'Buy the ticket Take the ride.',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate())); // passport-local-mongoose
+passport.serializeUser(User.serializeUser()); // passport-local-mongoose
+passport.deserializeUser(User.deserializeUser()); // passport-local-mongoose
+//-----------------------------------------------------------------------------
+
+// ROUTES:
 app.get('/', function(req, res){
     res.render('landing.ejs');
 }); //-------------------------------------------------------------------------
@@ -105,6 +120,45 @@ app.post('/campgrounds/:id/comments', function(req, res){
         }
     });
 });
+//=============================================================================
+
+// ========================= AUTH ROUTES ======================================
+// SHOW regiester form
+app.get('/register', function(req, res){
+    res.render('register');
+});
+
+// handle sign up logic:
+app.post('/register', function(req, res){
+    //                     getting username from the form
+    var newUser = new User({username: req.body.username});
+    //
+    User.register(newUser, req.body.password, function(err, user){
+        if (err) {
+            console.log(err);
+            return res.render('register.ejs');
+        }
+        passport.authenticate('local')(req, res, function(){
+            res.redirect('/campgrounds');
+        })
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
