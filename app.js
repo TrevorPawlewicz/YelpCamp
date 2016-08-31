@@ -144,10 +144,20 @@ app.post('/register', function(req, res){
     });
 });
 
+// SHOW login form
+app.get('/login', function(req, res){
+    res.render('login');
+});
 
+// handle login logic with MIDDLEWARE:
+app.post('/login', passport.authenticatefunction('local',
+    {   // user is assumed to be registered here
+        successRedirect: '/campgrounds',
+        failureRedirect: '/login'
+    }), function(req, res) {
 
-
-
+    }
+);
 
 
 
