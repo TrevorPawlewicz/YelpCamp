@@ -1,11 +1,13 @@
-var express    = require('express');
-var app        = express();
-var bodyParser = require('body-parser');
-var mongoose   = require('mongoose');
-var Camp       = require('./models/campground.js'); // import camground.js
-var seedDB     = require('./seeds.js');
-var Comment    = require('./models/comment.js');
-
+var express       = require('express');
+var app           = express();
+var bodyParser    = require('body-parser');
+var mongoose      = require('mongoose');
+var passport      = require('passport');
+var LocalStrategy = require('passport-local');
+var Camp          = require('./models/campground.js'); // import camground.js
+var User          = require('./models/user.js');
+var Comment       = require('./models/comment.js');
+var seedDB        = require('./seeds.js');
 //                                    yelp_camp is our dadtabase name
 mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
