@@ -20,7 +20,7 @@ router.get('/', function(req, res){
     });
 }); //-------------------------------------------------------------------------
 
-// router.get('/campgrounds/new', function(req, res){
+// router.get('/campgrounds/new', isLoggedIn, function(req, res){
 router.get('/new', isLoggedIn, function(req, res){
     res.render('campgrounds/new.ejs');
 }); //-------------------------------------------------------------------------
@@ -40,20 +40,30 @@ router.get('/:id', function(req, res){
 }); //-------------------------------------------------------------------------
 
 // CREATE - add new camp to DB
-// router.post('/campgrounds', function(req, res){
+// router.post('/campgrounds', isLoggedIn, function(req, res){
 router.post('/', isLoggedIn, function(req, res){
     // get data from form:
     var name = req.body.name;
     var image = req.body.image;
     var descript = req.body.description;
-    // add info to new object               {key is accessed in ejs}
-    var newCamp = {name: name, image: image, description: descript};
+    var thisAuthor = {
+        id: req.user._id,
+        username: req.user.username
+    }
+    // add info to new object {key is accessed in ejs: value is passed into key}
+    var newCamp = {
+        name: name,
+        image: image,
+        description: descript,
+        author: thisAuthor
+    };
 
     // create a new camp and save it to our DB:
     Camp.create(newCamp, function(err, newlyCreated){
         if (err) {
             console.log(err);
         } else {
+            console.log(newCamp);
             // redirect back to the campgrounds page
             res.redirect('/campgrounds');
         }
