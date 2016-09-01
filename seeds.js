@@ -29,6 +29,7 @@ function seedDB(){
             console.log(err);
         }
         console.log("Removed all camps!");
+        /*
         // then add some camps from seed data
         data.forEach(function(seed){
             Camp.create(seed, function(err, campSchemaData){
@@ -54,6 +55,7 @@ function seedDB(){
                 }
             });
         });
+        */
     });
 };
 

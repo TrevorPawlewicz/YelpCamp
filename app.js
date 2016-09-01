@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
 app.set('view engine', 'ejs'); // for views folder. no .ejs needed for file ext
 app.use(express.static(__dirname + '/public'));
 
-seedDB(); // seed the database evrytime we run app.
+//seedDB(); // seed the database evrytime we run app.
 //-----------------------------------------------------------------------------
 
 // PASSPORT Configuration: ----------------------------------------------------

@@ -1,3 +1,5 @@
+// ============================ Camp MODEL ===================================
+
 var mongoose = require('mongoose');
 
 // SCHEMA SETUP:
@@ -8,7 +10,7 @@ var campSchema = new mongoose.Schema({
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Comment'
+            ref: 'Comment' // model we refer to
         }
     ]
 });
