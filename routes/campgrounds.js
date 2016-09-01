@@ -1,9 +1,10 @@
+// ======================== Campgrounds ROUTES ===============================
+
 var express = require('express');
 var router  = express.Router(); // to export our routes to app.js
 var Camp    = require('../models/campground.js'); // import model
 var Comment = require('../models/comment.js');    // import model
 
-// ====================== GENERAL "CAMP" ROUTES ===============================
 // INDEX - show all campgrounds
 // router.get('/campgrounds', function(req, res){
 router.get('/', function(req, res){

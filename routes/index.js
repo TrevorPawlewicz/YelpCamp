@@ -1,9 +1,10 @@
+// ===================== Index AUTH ROUTES ====================================
+
 var express  = require('express');
 var router   = express.Router(); // to export our routes to app.js
 var passport = require('passport');
 var User     = require('../models/user.js'); // import model
 
-// ========================= AUTH ROUTES ======================================
 // ROOT Route:
 router.get('/', function(req, res){
     res.render('landing.ejs');

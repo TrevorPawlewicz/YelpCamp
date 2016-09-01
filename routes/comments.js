@@ -1,9 +1,10 @@
+// ====================== CommentS ROUTES =====================================
+
 var express = require('express');
 var router  = express.Router({mergeParams: true}); // combine Comment & Camp
 var Camp    = require('../models/campground.js'); // import model
 var Comment = require('../models/comment.js');    // import model
 
-// ====================== COMMENT ROUTES ======================================
 //                                             MIDDLEWARE
 // router.get('/campgrounds/:id/comments/new', isLoggedIn, function(req, res){
 router.get('/new', isLoggedIn, function(req, res){
@@ -30,8 +31,16 @@ router.post('/', isLoggedIn, function(req, res){
                     console.log(err);
                     res.redirect('/campgrounds');
                 } else {
+                    // taken from of comment.js commentSchema:
+                    comment.author.id = req.user._id;
+                    comment.author.username = req.user.username;
+                    comment.save();
+                    console.log("comment = " + comment);
+
                     foundCamp.comments.push(comment);
                     foundCamp.save();
+                    console.log("foundCamp = " + foundCamp);
+                    
                     res.redirect('/campgrounds/' + foundCamp._id);
                 }
             });
