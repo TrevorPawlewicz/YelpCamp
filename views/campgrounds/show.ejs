@@ -26,11 +26,13 @@
                         <em>Submitted by
                         <strong><%= campData.author.username %></strong></em>
                     </p>
-                    <a class="btn btn-warning" href="/campgrounds/<%= campData._id%>/edit">Edit</a>
-
-                    <form id="delete-form" action="/campgrounds/<% campData._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
+                    <!-- only show buttons if current user is logged in      -->
+                    <% if (currentUser && campData.author.id.equals(currentUser._id)) { %>
+                        <a class="btn btn-warning" href="/campgrounds/<%= campData._id%>/edit">Edit</a>
+                        <form id="delete-form" action="/campgrounds/<% campData._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    <% } %>
                 </div>
             </div>
             <!-- ________IMAGES_____NAME_____DESCRIPTION___________________ -->

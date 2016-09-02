@@ -79,7 +79,7 @@ router.get('/:id/edit', checkCampOwnership, function(req, res){
 }); //-------------------------------------------------------------------------
 
 // UPDATE camp route
-router.put('/:id', function(req, res){
+router.put('/:id', checkCampOwnership, function(req, res){
     //                                    editCamp from form edit.ejs
     Camp.findByIdAndUpdate(req.params.id, req.body.editCamp, function(err, updatedCamp){
         if (err) {
@@ -91,7 +91,7 @@ router.put('/:id', function(req, res){
 }); //-------------------------------------------------------------------------
 
 // DESTROY camp
-router.delete('/:id', function(req, res){
+router.delete('/:id', checkCampOwnership, function(req, res){
     Camp.findByIdAndRemove(req.params.id, function(err){
         if (err) {
             res.redirect('/campgrounds'); // views directory
