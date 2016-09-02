@@ -70,6 +70,29 @@ router.post('/', isLoggedIn, function(req, res){
     });
 }); //-------------------------------------------------------------------------
 
+// EDIT camp route
+router.get('/:id/edit', function(req, res){
+    Camp.findById(req.params.id, function(err, foundCamp){
+        if (err) {
+            res.redirect('/campgrounds'); // views directory
+        } else {
+            res.render('campgrounds/edit.ejs', {campData: foundCamp});
+        }
+    });
+}); //-------------------------------------------------------------------------
+
+// UPDATE cam route
+router.put('/:id', function(req, res){
+    //                                    editCamp from form edit.ejs
+    Camp.findByIdAndUpdate(req.params.id, req.body.editCamp, function(err, updatedCamp){
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect('/campgrounds/' + req.params.id);
+        }
+    });
+});
+
 // our MIDDLEWARE function for isAuthenticated
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
