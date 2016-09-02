@@ -81,7 +81,7 @@ router.get('/:id/edit', function(req, res){
     });
 }); //-------------------------------------------------------------------------
 
-// UPDATE cam route
+// UPDATE camp route
 router.put('/:id', function(req, res){
     //                                    editCamp from form edit.ejs
     Camp.findByIdAndUpdate(req.params.id, req.body.editCamp, function(err, updatedCamp){
@@ -91,9 +91,22 @@ router.put('/:id', function(req, res){
             res.redirect('/campgrounds/' + req.params.id);
         }
     });
+}); //-------------------------------------------------------------------------
+
+// DESTROY camp
+router.delete('/:id', function(req, res){
+    Camp.findByIdAndRemove(req.params.id, function(err){
+        if (err) {
+            res.redirect('/campgrounds'); // views directory
+        } else {
+            res.redirect('/campgrounds'); // views directory
+        }
+    });
 });
 
-// our MIDDLEWARE function for isAuthenticated
+
+
+// our MIDDLEWARE function for isAuthenticated --------------------------------
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
