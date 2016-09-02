@@ -70,14 +70,11 @@ router.post('/', isLoggedIn, function(req, res){
     });
 }); //-------------------------------------------------------------------------
 
-// EDIT camp route
-router.get('/:id/edit', function(req, res){
+// EDIT camp route:     our MIDDLEWARE
+router.get('/:id/edit', checkCampOwnership, function(req, res){
+
     Camp.findById(req.params.id, function(err, foundCamp){
-        if (err) {
-            res.redirect('/campgrounds'); // views directory
-        } else {
-            res.render('campgrounds/edit.ejs', {campData: foundCamp});
-        }
+        res.render('campgrounds/edit.ejs', {campData: foundCamp});
     });
 }); //-------------------------------------------------------------------------
 
@@ -105,7 +102,7 @@ router.delete('/:id', function(req, res){
 });
 
 
-
+//------------------------------MIDDLEWARE-------------------------------------
 // our MIDDLEWARE function for isAuthenticated --------------------------------
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
@@ -113,6 +110,57 @@ function isLoggedIn(req, res, next) {
     }
     res.redirect('/login');
 }; //--------------------------------------------------------------------------
+
+//
+function checkCampOwnership(req, res, next) {
+    if (req.isAuthenticated()) {
+        Camp.findById(req.params.id, function(err, foundCamp){
+            if (err) {
+                res.redirect('back');
+            } else {
+                // mongoose mathod to comapre
+                if (foundCamp.author.id.equals(req.user._id)) {
+                    console.log("moving on...");
+                    next();
+                } else {
+                    console.log("Denied! Going back...");
+                    res.redirect('back');
+                }
+            }
+        });
+    } else {
+        res.redirect('back');
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // export ROUTES:
 module.exports = router; // "returning"/exporting our routes for use elsewhere
