@@ -32,4 +32,20 @@
                 </div>
             </div>
         </nav>
+
+        <!-- _______________flash messages_____________ -->
+        <div class="container">
+            <% if (errorMessage && errorMessage.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= errorMessage %>
+                </div>
+            <% } %>
+            <% if (successMessage && successMessage.length > 0) { %>
+                <div class="alert alert-success" role="alert">
+                    <%= successMessage %>
+                </div>
+            <% } %>
+        </div>
+        <!-- _______________flash messages_____________ -->
+
 <!-- _________________________end of header_________________________________-->
