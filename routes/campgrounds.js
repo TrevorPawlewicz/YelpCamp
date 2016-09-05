@@ -118,7 +118,7 @@ function checkCampOwnership(req, res, next) {
             if (err) {
                 res.redirect('back');
             } else {
-                // mongoose mathod to comapre
+                // equals = mongoose mathod to compare
                 if (foundCamp.author.id.equals(req.user._id)) {
                     console.log("moving on...");
                     next();
@@ -131,7 +131,7 @@ function checkCampOwnership(req, res, next) {
     } else {
         res.redirect('back');
     }
-};
+}; //--------------------------------------------------------------------------
 
 
 

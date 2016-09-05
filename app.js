@@ -40,7 +40,7 @@ passport.deserializeUser(User.deserializeUser()); // passport-local-mongoose
 //-----------------------------------------------------------------------------
 
 // our MIDDLEWARE for currentUser
-// *** whatever we put into res.locals we can use in our template
+// *** whatever we put into res.locals we can use in our ejs template
 app.use(function(req, res, next){
     // req.user will be empty if no one is signed in
     res.locals.currentUser = req.user;
