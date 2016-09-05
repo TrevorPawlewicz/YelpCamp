@@ -1,9 +1,10 @@
 // ===================== Index AUTH ROUTES ====================================
 
-var express  = require('express');
-var router   = express.Router(); // to export our routes to app.js
-var passport = require('passport');
-var User     = require('../models/user.js'); // import model
+var express    = require('express');
+var router     = express.Router(); // to export our routes to app.js
+var passport   = require('passport');
+var User       = require('../models/user.js'); // import model
+
 
 // ROOT Route:
 router.get('/', function(req, res){
@@ -36,7 +37,7 @@ router.get('/login', function(req, res){
     res.render('login');
 }); //-------------------------------------------------------------------------
 
-// handle login logic with MIDDLEWARE:
+// handle login logic with passport MIDDLEWARE:
 router.post('/login', passport.authenticate('local',
     {   // user is assumed to be registered here
         successRedirect: '/campgrounds',
@@ -50,17 +51,11 @@ router.post('/login', passport.authenticate('local',
 router.get('/logout', function(req, res){
     req.logout(); // method passport
     res.redirect('/campgrounds');
-});
-//=============================================================================
-// our MIDDLEWARE function for isAuthenticated
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}; //--------------------------------------------------------------------------
+}); //------------------------------------------------------------------------
 
-// export ROUTES:
-module.exports = router; // "returning"/exporting our routes for use elsewhere
+
+
+// export ROUTES: ------------------------------------------------------------
+module.exports = router; // "return"/exporting our routes for use elsewhere
 
 //=============================================================================

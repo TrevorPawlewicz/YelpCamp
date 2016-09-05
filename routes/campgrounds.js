@@ -1,9 +1,10 @@
 // ======================== Campgrounds ROUTES ===============================
 
-var express = require('express');
-var router  = express.Router(); // to export our routes to app.js
-var Camp    = require('../models/campground.js'); // import model
-var Comment = require('../models/comment.js');    // import model
+var express    = require('express');
+var router     = express.Router(); // to export our routes to app.js
+var Camp       = require('../models/campground.js'); // import model
+var Comment    = require('../models/comment.js');    // import model
+var middleware = require('../middleware'); // index.js is default by express
 
 // INDEX - show all campgrounds
 // router.get('/campgrounds', function(req, res){
@@ -15,13 +16,12 @@ router.get('/', function(req, res){
         } else {
             // {name we give our data being passed in: our actual data}
             res.render('campgrounds/index.ejs', {campData: allCamps, currentUser: req.user});
-            //res.render('campgrounds/index.ejs', {campData: allCamps});
         }
     });
 }); //-------------------------------------------------------------------------
 
 // router.get('/campgrounds/new', isLoggedIn, function(req, res){
-router.get('/new', isLoggedIn, function(req, res){
+router.get('/new', middleware.isLoggedIn, function(req, res){
     res.render('campgrounds/new.ejs');
 }); //-------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ router.get('/:id', function(req, res){
 
 // CREATE - add new camp to DB
 // router.post('/campgrounds', isLoggedIn, function(req, res){
-router.post('/', isLoggedIn, function(req, res){
+router.post('/', middleware.isLoggedIn, function(req, res){
     // get data from form:
     var name = req.body.name;
     var image = req.body.image;
@@ -70,8 +70,8 @@ router.post('/', isLoggedIn, function(req, res){
     });
 }); //-------------------------------------------------------------------------
 
-// EDIT camp route:     our MIDDLEWARE
-router.get('/:id/edit', checkCampOwnership, function(req, res){
+// EDIT camp route:
+router.get('/:id/edit', middleware.checkCampOwnership, function(req, res){
 
     Camp.findById(req.params.id, function(err, foundCamp){
         res.render('campgrounds/edit.ejs', {campData: foundCamp});
@@ -79,7 +79,7 @@ router.get('/:id/edit', checkCampOwnership, function(req, res){
 }); //-------------------------------------------------------------------------
 
 // UPDATE camp route
-router.put('/:id', checkCampOwnership, function(req, res){
+router.put('/:id', middleware.checkCampOwnership, function(req, res){
     //                                    editCamp from form edit.ejs
     Camp.findByIdAndUpdate(req.params.id, req.body.editCamp, function(err, updatedCamp){
         if (err) {
@@ -91,7 +91,7 @@ router.put('/:id', checkCampOwnership, function(req, res){
 }); //-------------------------------------------------------------------------
 
 // DESTROY camp
-router.delete('/:id', checkCampOwnership, function(req, res){
+router.delete('/:id', middleware.checkCampOwnership, function(req, res){
     Camp.findByIdAndRemove(req.params.id, function(err){
         if (err) {
             res.redirect('/campgrounds'); // views directory
@@ -99,70 +99,11 @@ router.delete('/:id', checkCampOwnership, function(req, res){
             res.redirect('/campgrounds'); // views directory
         }
     });
-});
-
-
-//------------------------------MIDDLEWARE-------------------------------------
-// our MIDDLEWARE function for isAuthenticated --------------------------------
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}; //--------------------------------------------------------------------------
-
-//
-function checkCampOwnership(req, res, next) {
-    if (req.isAuthenticated()) {
-        Camp.findById(req.params.id, function(err, foundCamp){
-            if (err) {
-                res.redirect('back');
-            } else {
-                // equals = mongoose mathod to compare
-                if (foundCamp.author.id.equals(req.user._id)) {
-                    console.log("moving on...");
-                    next();
-                } else {
-                    console.log("Denied! Going back...");
-                    res.redirect('back');
-                }
-            }
-        });
-    } else {
-        res.redirect('back');
-    }
-}; //--------------------------------------------------------------------------
+}); //-------------------------------------------------------------------------
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export ROUTES:
-module.exports = router; // "returning"/exporting our routes for use elsewhere
+// export ROUTES: ------------------------------------------------------------
+module.exports = router; // "return"/exporting our routes for use elsewhere
 
 //=============================================================================
