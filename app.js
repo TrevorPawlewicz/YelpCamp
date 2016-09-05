@@ -3,13 +3,14 @@ var express        = require('express');
 var app            = express();
 var bodyParser     = require('body-parser');
 var mongoose       = require('mongoose');
-var passport       = require('passport');
-var LocalStrategy  = require('passport-local');
-var methodOverride = require('method-override');
+var flash          = require('connect-flash'); // messages
+var passport       = require('passport'); // authentication
+var LocalStrategy  = require('passport-local'); // authentication
+var methodOverride = require('method-override'); // for routes
 var Camp           = require('./models/campground.js'); // import model
 var User           = require('./models/user.js');       // import model
 var Comment        = require('./models/comment.js');    // import model
-var seedDB         = require('./seeds.js');
+var seedDB         = require('./seeds.js'); // our seed data file
 
 // require all route dependencies:
 var indexRoutes      = require('./routes/index'),
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
 app.set('view engine', 'ejs'); // for views folder. no .ejs needed for file ext
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride('_method')); //
+app.use(flash());
 
 //seedDB(); // seed the database everytime we run app with its data.
 //-----------------------------------------------------------------------------
