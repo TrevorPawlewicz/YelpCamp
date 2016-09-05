@@ -72,9 +72,12 @@ router.post('/', middleware.isLoggedIn, function(req, res){
 
 // EDIT camp route:
 router.get('/:id/edit', middleware.checkCampOwnership, function(req, res){
-
     Camp.findById(req.params.id, function(err, foundCamp){
-        res.render('campgrounds/edit.ejs', {campData: foundCamp});
+        if (err) {
+            req.flash('error', 'Cannot Find Specified Item!');
+        } else {
+            res.render('campgrounds/edit.ejs', {campData: foundCamp});
+        }
     });
 }); //-------------------------------------------------------------------------
 
@@ -83,7 +86,7 @@ router.put('/:id', middleware.checkCampOwnership, function(req, res){
     //                                    editCamp from form edit.ejs
     Camp.findByIdAndUpdate(req.params.id, req.body.editCamp, function(err, updatedCamp){
         if (err) {
-            console.log(err);
+            req.flash('error', 'Cannot Find Specified Item!');
         } else {
             res.redirect('/campgrounds/' + req.params.id);
         }
