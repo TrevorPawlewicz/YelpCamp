@@ -4,7 +4,7 @@ var express    = require('express');
 var router     = express.Router({mergeParams: true}); // combine Comment & Camp
 var Camp       = require('../models/campground.js'); // import model
 var Comment    = require('../models/comment.js');    // import model
-var middleware = require('../middleware'); // index.js is default by express
+var middleware = require('../middleware/middleware.js'); // index.js is default by express
 
 
 // router.get('/campgrounds/:id/comments/new', isLoggedIn, function(req, res){

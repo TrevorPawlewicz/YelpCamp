@@ -36,7 +36,7 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate())); // passport-local-mongoose
+passport.use(new LocalStrategy(User.authenticate())); //passport-local-mongoose
 passport.serializeUser(User.serializeUser()); // passport-local-mongoose
 passport.deserializeUser(User.deserializeUser()); // passport-local-mongoose
 //-----------------------------------------------------------------------------
@@ -46,6 +46,8 @@ passport.deserializeUser(User.deserializeUser()); // passport-local-mongoose
 app.use(function(req, res, next){
     // req.user will be empty if no one is signed in
     res.locals.currentUser = req.user;
+    res.locals.errorMessage = req.flash('error'); // pass in flash error message
+    res.locals.successMessage = req.flash('success'); //pass in flash success
     next(); // move forward
 });
 
