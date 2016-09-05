@@ -1,13 +1,14 @@
 // ====================== CommentS ROUTES =====================================
 
-var express = require('express');
-var router  = express.Router({mergeParams: true}); // combine Comment & Camp
-var Camp    = require('../models/campground.js'); // import model
-var Comment = require('../models/comment.js');    // import model
+var express    = require('express');
+var router     = express.Router({mergeParams: true}); // combine Comment & Camp
+var Camp       = require('../models/campground.js'); // import model
+var Comment    = require('../models/comment.js');    // import model
+var middleware = require('../middleware'); // index.js is default by express
 
-//                                             MIDDLEWARE
+
 // router.get('/campgrounds/:id/comments/new', isLoggedIn, function(req, res){
-router.get('/new', isLoggedIn, function(req, res){
+router.get('/new', middleware.isLoggedIn, function(req, res){
     // find by ID
     Camp.findById(req.params.id, function(err, foundCamp){
         if (err) {
@@ -17,9 +18,9 @@ router.get('/new', isLoggedIn, function(req, res){
         }
     });
 }); //-------------------------------------------------------------------------
-//                                          MIDDLEWARE
+
 // router.post('/campgrounds/:id/comments', isLoggedIn, function(req, res){
-router.post('/', isLoggedIn, function(req, res){
+router.post('/', middleware.isLoggedIn, function(req, res){
     //
     Camp.findById(req.params.id, function(err, foundCamp){
         if (err) {
@@ -48,8 +49,8 @@ router.post('/', isLoggedIn, function(req, res){
     });
 }); //-------------------------------------------------------------------------
 
-// EDIT comment route               MIDDLEWARE
-router.get('/:comment_id/edit', checkCommentOwnership, function(req, res){
+// EDIT comment route
+router.get('/:comment_id/edit', middleware.checkCommentOwnership, function(req, res){
     Comment.findById(req.params.comment_id, function(err, foundComment){
         if (err) {
             res.redirect('back');
@@ -59,8 +60,8 @@ router.get('/:comment_id/edit', checkCommentOwnership, function(req, res){
     });
 }); //-------------------------------------------------------------------------
 
-// UPDATE comment route:         MIDDLEWARE
-router.put('/:comment_id', checkCommentOwnership, function(req, res){
+// UPDATE comment route:
+router.put('/:comment_id', middleware.checkCommentOwnership, function(req, res){
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if (err) {
             res.redirect('back');
@@ -70,8 +71,8 @@ router.put('/:comment_id', checkCommentOwnership, function(req, res){
     })
 }); //-------------------------------------------------------------------------
 
-// DESTROY comment route:        MIDDLEWARE
-router.delete('/:comment_id', checkCommentOwnership, function(req, res){
+// DESTROY comment route:
+router.delete('/:comment_id', middleware.checkCommentOwnership, function(req, res){
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
         if (err) {
             res.redirect('back');
@@ -83,53 +84,8 @@ router.delete('/:comment_id', checkCommentOwnership, function(req, res){
 
 
 
-// our MIDDLEWARE function for isAuthenticated --------------------------------
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}; //--------------------------------------------------------------------------
 
-//
-function checkCommentOwnership(req, res, next) {
-    if (req.isAuthenticated()) {
-        Comment.findById(req.params.comment_id, function(err, foundComment){
-            if (err) {
-                res.redirect('back');
-            } else {
-                // equals = mongoose mathod to compare
-                if (foundComment.author.id.equals(req.user._id)) {
-                    console.log("moving on...");
-                    next();
-                } else {
-                    console.log("Denied! Going back...");
-                    res.redirect('back');
-                }
-            }
-        });
-    } else {
-        res.redirect('back');
-    }
-}; //--------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export ROUTES:
-module.exports = router; // "returning"/exporting our routes for use elsewhere
+// export ROUTES: ------------------------------------------------------------
+module.exports = router; // "return"/exporting our routes for use elsewhere
 
 //=============================================================================

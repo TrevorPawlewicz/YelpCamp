@@ -16,14 +16,14 @@ var indexRoutes      = require('./routes/index'),
     campgroundRoutes = require('./routes/campgrounds'),
     commentRoutes    = require('./routes/comments');
 
-//                                    yelp_camp is our dadtabase name
+//                                    yelp_camp is our mongo database name
 mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
 app.set('view engine', 'ejs'); // for views folder. no .ejs needed for file ext
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride('_method')); //
 
-//seedDB(); // seed the database evrytime we run app.
+//seedDB(); // seed the database everytime we run app with its data.
 //-----------------------------------------------------------------------------
 
 // PASSPORT Configuration: ----------------------------------------------------
