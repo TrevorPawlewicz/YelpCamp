@@ -53,13 +53,17 @@
                             <p>
                                 <%= comment.text %>
                             </p>
-                            <a class="btn btn-warning"
-                               href="/campgrounds/<%= campData._id%>/comments/<%= comment._id %>/edit">
-                               Edit
-                            </a>
-                            <form id="delete-form" action="/campgrounds/<%= campData._id%>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                                <input class="btn btn-danger" type="submit" value="Delete">
-                            </form>
+                            <!-- // only show buttons if current user is logged in -->
+                            <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
+                                <a class="btn btn-warning"
+                                   href="/campgrounds/<%= campData._id%>/comments/<%= comment._id %>/edit">
+                                   Edit
+                                </a>
+                                <form id="delete-form" action="/campgrounds/<%= campData._id%>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                    <input class="btn btn-danger" type="submit" value="Delete">
+                                </form>
+                            <% } %>
+                            <!-- ------------------------------------------- -->
                         </div>
                     </div>
                 <% }); %>
