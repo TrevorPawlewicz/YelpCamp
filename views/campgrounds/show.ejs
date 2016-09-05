@@ -57,6 +57,9 @@
                                href="/campgrounds/<%= campData._id%>/comments/<%= comment._id %>/edit">
                                Edit
                             </a>
+                            <form id="delete-form" action="/campgrounds/<%= campData._id%>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                <input class="btn btn-danger" type="submit" value="Delete">
+                            </form>
                         </div>
                     </div>
                 <% }); %>
@@ -65,7 +68,6 @@
         </div>
     </div>
 </div>
-
 
 
 <!-- _____________________________partial footer___________________________ -->
