@@ -18,17 +18,21 @@ router.get('/register', function(req, res){
 
 // handle sign up logic:
 router.post('/register', function(req, res){
-    //                     getting username from the form
+    // getting username from the form assign it to username here:
     var newUser = new User({username: req.body.username});
-    //
+
     User.register(newUser, req.body.password, function(err, user){
+
         if (err) {
-            console.log(err);
+            console.log(err.message);
+            req.flash('error', err.message);
             return res.render('register.ejs');
         }
+
         passport.authenticate('local')(req, res, function(){
+            req.flash('success', 'Welcome to YelpCamp ' + user.username + '!');
             res.redirect('/campgrounds');
-        })
+        });
     });
 }); //-------------------------------------------------------------------------
 
@@ -51,7 +55,7 @@ router.post('/login', passport.authenticate('local',
 router.get('/logout', function(req, res){
     req.logout(); // passport method
     //  flash    key,     value
-    req.flash('success', 'Logged you out!');
+    req.flash('success', 'You Have Been Logged Out!');
     res.redirect('/campgrounds');
 }); //------------------------------------------------------------------------
 
