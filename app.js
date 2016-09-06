@@ -19,9 +19,11 @@ var indexRoutes      = require('./routes/index'),
 
 var PORT = process.env.PORT || 3000;
 
-
 //mongoose.connect('mongodb://localhost/yelp_camp'); //localhost:3000 database
-mongoose.connect("mongodb://trevs_data:wordUp@ds019766.mlab.com:19766/trevs_yelp_camp");
+// from commandline create env. var: export DATABASE_URL=mongodb://localhost/yelp_camp
+console.log("DATABASE_URL = " + process.env.DATABASE_URL);
+mongoose.connect(process.env.DATABASE_URL);
+// Heroku env. var set at its website
 
 app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
 app.set('view engine', 'ejs'); // for views folder. no .ejs needed for file ext
