@@ -21,8 +21,9 @@ var PORT = process.env.PORT || 3000;
 
 //mongoose.connect('mongodb://localhost/yelp_camp'); //localhost:3000 database
 // from commandline create env. var: export DATABASE_URL=mongodb://localhost/yelp_camp
+var url = process.env.DATABASE_URL || 'mongodb://localhost/yelp_camp';
 console.log("DATABASE_URL = " + process.env.DATABASE_URL);
-mongoose.connect(process.env.DATABASE_URL);
+mongoose.connect(url);
 // Heroku env. var set at its website
 
 app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
@@ -64,7 +65,7 @@ app.use('/campgrounds/:id/comments', commentRoutes);
 
 
 //-----------------------------------------------------------------------------
-app.listen(PORT, function(req, res){
+app.listen(PORT, process.env.IP, function(req, res){
     console.log('...the YelpCamp sever has started on: ' + PORT);
 });
 //-----------------------------------------------------------------------------
