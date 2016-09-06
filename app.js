@@ -17,8 +17,10 @@ var indexRoutes      = require('./routes/index'),
     campgroundRoutes = require('./routes/campgrounds'),
     commentRoutes    = require('./routes/comments');
 
-//                                    yelp_camp is our mongo database name
-mongoose.connect('mongodb://localhost/yelp_camp');
+
+//mongoose.connect('mongodb://localhost/yelp_camp'); //localhost:3000 database
+mongoose.connect("mongodb://trevs_data:wordUp@ds019766.mlab.com:19766/trevs_yelp_camp");
+
 app.use(bodyParser.urlencoded({extended: true})); // parse data into JS
 app.set('view engine', 'ejs'); // for views folder. no .ejs needed for file ext
 app.use(express.static(__dirname + '/public'));
